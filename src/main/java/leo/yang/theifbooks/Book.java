@@ -19,11 +19,16 @@ public class Book {
     public static Properties properties;
     public static File propertiesFile;
     public static File bookFile;
+    public static String bookPath;
+    public static int lineLength = 50;
+    public static String prefix = "//-";
 
     public static void config(String path, String line){
         try {
             properties.setProperty("path", path);
             properties.setProperty("line", line);
+            properties.setProperty("length", String.valueOf(lineLength));
+            properties.setProperty("prefix", prefix);
             FileOutputStream out = new FileOutputStream(propertiesFile);
             OutputStreamWriter writer = new OutputStreamWriter(out);
             properties.store(writer, "Thief Book Properties");
@@ -102,13 +107,15 @@ public class Book {
                 properties = new Properties();
                 System.out.println(propertiesFile.getAbsolutePath());
                 properties.load(new FileInputStream(propertiesFile));
-                String path = properties.getProperty("path");
-                if (path == null) {
+                bookPath = properties.getProperty("path");
+                if (bookPath == null) {
                     return "//please book path. example: path=D:\\tmhc.txt";
                 }
-                line = Integer.valueOf(properties.getProperty("line", "0"));
-                System.out.println(path + line);
-                bookFile = new File(path);
+                line = Integer.parseInt(properties.getProperty("line", "0"));
+                lineLength = Integer.parseInt(properties.getProperty("length", "60"));
+                prefix = properties.getProperty("prefix", "//- ");
+                System.out.println(bookPath + line);
+                bookFile = new File(bookPath);
                 if (bookFile.exists()) {
                     FileInputStream bookFile = new FileInputStream(Book.bookFile);
                     InputStreamReader inputStreamReader = new InputStreamReader(bookFile, StandardCharsets.UTF_8);
@@ -118,7 +125,7 @@ public class Book {
                     inputStreamReader.close();
                     bookFile.close();
                 } else {
-                    return "//not found book. path=" + path;
+                    return "//not found book. path=" + bookPath;
                 }
             }
         } catch (Exception ignore) {

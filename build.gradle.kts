@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "leo.yang.theifbooks"
-version = "1.0"
+version = "1.21"
 
 repositories {
     maven { setUrl("https://maven.aliyun.com/repository/public/") }

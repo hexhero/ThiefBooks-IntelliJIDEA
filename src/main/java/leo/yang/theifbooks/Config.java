@@ -20,11 +20,14 @@ public class Config extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         ConfigDialog configDialog = new ConfigDialog();
         if(configDialog.showAndGet()){
+            Book.lineLength = Integer.parseInt(configDialog.length.getText());
+            Book.prefix = configDialog.prefix.getText();
             String path = configDialog.path.getText();
             System.out.println(path);
             String line = configDialog.line.getText();
             System.out.println(line);
             Book.config(path, line);
+
         }
     }
 
@@ -32,6 +35,8 @@ public class Config extends AnAction {
 
         JTextField path;
         JTextField line;
+        JTextField length;
+        JTextField prefix;
 
         public ConfigDialog() {
             super(true); // use current window as parent
@@ -59,9 +64,24 @@ public class Config extends AnAction {
             line.setPreferredSize(new Dimension(300, 20));
             linePanel.add(line,BorderLayout.CENTER);
 
-            panel.setLayout(new GridLayout(2,1));
+            JPanel lengthAndPrefixPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JLabel lengthLabel = new JLabel("Length");
+            lengthLabel.setPreferredSize(new Dimension(50, 20));
+            length = new JTextField(String.valueOf(Book.lineLength));
+            length.setPreferredSize(new Dimension(100, 20));
+            lengthAndPrefixPanel.add(length, FlowLayout.LEFT);
+            lengthAndPrefixPanel.add(lengthLabel,FlowLayout.LEFT);
+            JLabel prefixLabel = new JLabel("Prefix");
+            prefixLabel.setPreferredSize(new Dimension(50, 20));
+            prefix = new JTextField(Book.prefix);
+            prefix.setPreferredSize(new Dimension(100, 20));
+            lengthAndPrefixPanel.add(prefix, FlowLayout.RIGHT);
+            lengthAndPrefixPanel.add(prefixLabel, FlowLayout.RIGHT);
+
+            panel.setLayout(new GridLayout(3,1));
             panel.add(pathPanel);
             panel.add(linePanel);
+            panel.add(lengthAndPrefixPanel);
             return panel;
         }
     }

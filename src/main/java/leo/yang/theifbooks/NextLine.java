@@ -23,11 +23,11 @@ public class NextLine extends AnAction {
         Document document = editor.getDocument();
         Caret primaryCaret = editor.getCaretModel().getPrimaryCaret();
         WriteCommandAction.runWriteCommandAction(project, () -> {
-                    StringBuilder sb = new StringBuilder("//- ");
+                    StringBuilder sb = new StringBuilder(Book.prefix);
                     sb.append(Book.nextLine());
                     sb.append(" \n");
-                    for(int i =100; i < sb.length(); i += 100){
-                        sb.insert(i, "\n//- ");
+                    for(int i =Book.lineLength; i < sb.length(); i += Book.lineLength){
+                        sb.insert(i, "\n" + Book.prefix);
                     }
                     document.replaceString(primaryCaret.getVisualLineStart(), primaryCaret.getVisualLineEnd(), sb.toString());
                 }
