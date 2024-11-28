@@ -25,10 +25,10 @@ public class PreLine extends AnAction {
         Caret primaryCaret = editor.getCaretModel().getPrimaryCaret();
         WriteCommandAction.runWriteCommandAction(project, () -> {
                     StringBuilder sb = new StringBuilder(Book.prefix);
-                    sb.append(Book.preLine());
-                    sb.append(" \n");
+                    sb.append("Line:").append(Book.line).append("\n").append(Book.prefix);
+                    sb.append(Book.preLine()).append(" \n");
                     for (int i = Book.lineLength; i < sb.length(); i += Book.lineLength) {
-                        sb.insert(i, "\n" + Book.prefix);
+                        sb.insert(i, "\n" + Book.prefix + "   \n" + Book.prefix);
                     }
                     document.replaceString(primaryCaret.getVisualLineStart(), primaryCaret.getVisualLineEnd(), sb.toString());
                 }
